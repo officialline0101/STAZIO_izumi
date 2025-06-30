@@ -186,6 +186,7 @@
         }
 
         .visit-buttons,
+        .payment-buttons,
         .symptoms,
         .menu-sections,
         .irradiations {
@@ -196,6 +197,7 @@
         }
 
         .visit-buttons button,
+        .payment-buttons button,
         .symptoms button,
         .menu-sections button,
         .irradiations button {
@@ -211,6 +213,7 @@
         }
 
         .visit-buttons button.active,
+        .payment-buttons button.active,
         .symptoms button.active,
         .menu-sections button.active,
         .irradiations button.active {
@@ -938,6 +941,13 @@
             <button type="button" id="repeatVisit" onclick="selectVisit(this)">2回目以降</button>
         </div>
 
+        <div class="label">お支払い方法<span class="required">必須</span></div>
+        <div class="payment-buttons">
+            <button type="button" id="firstPayment" onclick="selectPayment(this)">現金</button>
+            <button type="button" id="repeatPayment" onclick="selectPayment(this)">クレカ、QR</button>
+            <button type="button" id="sanPayment" onclick="selectPayment(this)">請求書（法人のみ）</button>
+        </div>
+
         <div class="label" id="course">メニューをお選びください<span class="required">必須</span></div>
         <div class="info-text">※メニューを選択すると空き状況のカレンダーが表示されます</div>
         <div class="menu-sections">
@@ -1109,6 +1119,7 @@
     <script src="https://static.line-scdn.net/liff/edge/2.1/sdk.js"></script>
     <script>
         let visitCount = '';
+        let paymentCount = '';
         let selectedMenu = '';
         let selectedSymptom = [];  // 配列として定義
         let selectedFullDate = '';
@@ -1210,6 +1221,7 @@
         function updateDisplayInfo() {
             const name = document.getElementById('name').value;
             const visitCountText = visitCount ? `<span style="color:#34435d;"><strong>【ご来店回数】</strong></span><br>・${visitCount}` : '・来店回数が未選択です';
+            const paymentCountText = paymentCount ? `<span style="color:#34435d;"><strong>【お支払い方法】</strong></span><br>・${paymentCount}` : '・お支払い方法が未選択です';
             const selectedMenuText = selectedMenu ? `<span style="color:#34435d;"><strong>【コース】</strong></span><br>・${selectedMenu}` : '・コースが未選択です';
 
 const selectedSymptomText = selectedSymptom.length > 0
@@ -1241,6 +1253,11 @@ const selectedSymptomText = selectedSymptom.length > 0
         </div>
         <hr>
         <div class="info-row">
+            <p>${paymentCountText}</p>
+            <button class="edit-button" onclick="scrollToElement('firstPayment')">修正する</button>
+        </div>
+        <hr>
+        <div class="info-row">
             <p>${selectedSymptomText}</p>
             <button class="edit-button" onclick="scrollToElement('male'); scrollToElement('female'); scrollToElement('whitening');">修正する</button>
         </div>
@@ -1269,6 +1286,9 @@ const selectedSymptomText = selectedSymptom.length > 0
         // 各ボタンや入力フィールドでupdateDisplayInfoを呼び出すようにする
         document.getElementById('name').addEventListener('input', updateDisplayInfo);
         document.querySelectorAll('.visit-buttons button').forEach(button => {
+            button.addEventListener('click', updateDisplayInfo);
+        });
+        document.querySelectorAll('.payment-buttons button').forEach(button => {
             button.addEventListener('click', updateDisplayInfo);
         });
         document.querySelectorAll('.symptoms button').forEach(button => {
@@ -1522,6 +1542,25 @@ function updateSelectedMenusDisplay() {
             fetchAvailability(currentDate);
         }
 
+        function selectPayment(element) {
+            // 選択された日時をリセット
+            selectedFullDate = '';
+
+            document.getElementById('firstPayment').classList.remove('active');
+            document.getElementById('repeatPayment').classList.remove('active');
+            document.getElementById('sanPayment').classList.remove('active');
+            element.classList.add('active');
+            paymentCount = element.innerText;
+
+            // 選択された訪問回数に対応する時間を取得
+            selectedPaymentTime = paymenTimes[paymenCount];
+
+            console.log('選択された訪問回数の時間:', selectedPaymentTime);
+
+            // カレンダーを更新するために取得する日付を渡す
+            fetchAvailability(currentDate);
+        }
+
         function showMenu(menu) {
             // `treatment-text` を非表示にする
             document.getElementById("treatment-text").style.display = "none";
@@ -1594,6 +1633,7 @@ function updateSelectedMenusDisplay() {
                 name: document.getElementById('name').value.trim(),
                 phone: document.getElementById('phone').value.trim(),
                 visitCount: visitCount,
+                paymentCount: paymentCount,
                 selectedMenu: selectedMenu,
                 selectedSymptom: selectedSymptom && selectedSymptom.length > 0 ? selectedSymptom : null, // 空の選択肢をチェック
                 irradiationsCount: irradiationsCount,
@@ -1609,6 +1649,11 @@ function updateSelectedMenusDisplay() {
 
             if (!formData.phone) {
                 alert('電話番号を入力してください。');
+                return;
+            }
+
+            if (!formData.paymentCount) {
+                alert('お支払い方法を入力してください。');
                 return;
             }
 
@@ -1632,7 +1677,7 @@ const irradiationsText = formData.irradiationsCount || '';
 
 liff.sendMessages([{
     type: 'text',
-    text: `【予約フォーム】\nお名前：${formData.name}\n電話番号：${formData.phone}\nご来店回数：${formData.visitCount}\nコース：${formData.selectedMenu}\nメニュー：${selectedSymptomText},${irradiationsText}\n希望日時：\n${formData.dates[0]}\nメッセージ：${formData.message}`
+    text: `【予約フォーム】\nお名前：${formData.name}\n電話番号：${formData.phone}\nご来店回数：${formData.visitCount}\nお支払い方法：${formData.paymentCount}\nコース：${formData.selectedMenu}\nメニュー：${selectedSymptomText},${irradiationsText}\n希望日時：\n${formData.dates[0]}\nメッセージ：${formData.message}`
 }]).then(() => {
                 /* メッセージ送信成功時の処理 */
                 alert('当日キャンセルは無いようにお願いいたします。');
@@ -1664,7 +1709,7 @@ liff.sendMessages([{
                 return;
             }
 
-            const url = 'https://script.google.com/macros/s/AKfycbyy5lnT3ytsxrjZr635cu38hua3yZredHU9q7Wy_9a2eQXXrWRCkpw_-ZAGuycFUqVH/exec' +
+            const url = 'https://script.google.com/macros/s/AKfycbxZN32KKjG1uuCzQsewDRNoO5qd9Vn8rbQyWcfNGHKaEr6B0RirNNEu9W0mMv2bNPga/exec' +
                 `?startTime=${startTime.toISOString()}&endTime=${endTime.toISOString()}`;
 
             try {
@@ -1797,8 +1842,11 @@ const times = [
                     }
 
                     // ここで終了時間を使った条件処理を行う
-                    // 例えば、リアルタイムで既に過ぎた時間帯は×にする
-                    if (slotStart < now) {
+                    // リアルタイムと+72時間先まで✖にする
+                    let limitTime = new Date(now);
+                    limitTime.setHours(now.getHours() + 24);
+
+                    if (slotStart < limitTime) {
                         cell.textContent = '✕';
                         cell.classList.add('unavailable');
                         continue;
