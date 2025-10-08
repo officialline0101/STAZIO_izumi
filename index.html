@@ -15,7 +15,7 @@
             /* さらに右へ */
             top: 80%;
             /* 画面中央に固定 */
-            transform: translateY(-50%) translateX(13px);
+            transform: translateY(-50%) translateX(12px);
             /* 中央配置と右ずらし */
             background: #34435d;
             display: flex;
@@ -453,9 +453,9 @@
 
         #treatment-text {
             background-color: #eef9f5;
-            padding: 10px;
-            border-radius: 4px;
-            margin-top: 1px;
+            padding: 0px;
+            border-radius: 0px;
+            margin-top: 0px;
         }
 
         .highlight-background {
@@ -914,6 +914,65 @@
     text-align: center;
 }
 
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: -6px 0;
+        }
+
+        hr {
+            margin: -5px 0;
+        }
+
+        .edit-button {
+            background-color: #ffffff;
+            color: #1a1a1a;
+            border: 1px solid black;
+            /* ← 外枠を黒1pxに設定 */
+            border-radius: 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            white-space: nowrap;
+            /* 改行を防ぐ */
+            width: auto;
+            text-align: center;
+        }
+
+        .edit-button:hover {
+            background-color: #34435d;
+            color: #ffffff;
+            /* ← 黒背景に合わせて文字色を白にすると視認性が上がります（任意） */
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            background-color: #34435d;
+            margin-top: 12px;
+            /* ← ここで下方向にずらす */
+        }
+
+        .submit-button:hover {
+            background-color: #34435d;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 22px;
+            }
+
+            input,
+            button {
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 
@@ -949,7 +1008,7 @@
         </div>
 
         <div class="label" id="course">メニューをお選びください<span class="required">必須</span></div>
-        <div class="info-text">※メニューを選択すると空き状況のカレンダーが表示されます</div>
+        <div class="info-text">※メニューを選択すると空き状況のカレンダーが表示されます。<br>フルレンタルプラン（〜3時間まで）は1時間4,400円となります。<br>フルレンタルプラン（4時間以上）は1時間3,850円となります。<br>フルレンタルプラン（8時間以上）は1時間3,300円となります。<br>※料金は全て税込料金になります。</div>
         <div class="menu-sections">
             <button type="button" onclick="showMenu('male')">フルレンタルプラン（～3時間まで）</button>
             <button type="button" onclick="showMenu('female')">フルレンタルプラン（4時間以上）</button>
@@ -960,25 +1019,25 @@
 <!-- メニュー表示エリア（選択されたメニュー名がここに出る） -->
 <div id="selected-menus-display" style="display: none; font-weight: bold; margin-top: 10px;"></div>
 
-        <div id="treatment-text" style="display: none; margin-bottom: 10px;"></div>
+        <div id="treatment-text" style="display: none; margin-bottom: 0px;"></div>
 
         <div id="male" class="menu-section">
             <div class="highlight-background">
                 <span class="highlight-text">◆フルレンタルプラン（～3時間まで）◆</span>
             </div>
             <div class="symptoms">
-                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="15000">1時間</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="15000">1時間30分</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="15000">2時間</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="15000">2時間30分</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="15000">3時間</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="15000">3時間30分</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="4400">1時間</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="6600">1時間30分</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="8800">2時間</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="11000">2時間30分</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="13200">3時間</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="15400">3時間30分</button>
             </div>
             <div class="highlight-background">
                 <span class="highlight-text">オプション</span>
             </div>
             <div class="irradiations">
-                <button type="button" id="firstirradiations" onclick="selectirradiations(this)" data-price="15000">カメラレンタル</button>
+                <button type="button" id="firstirradiations" onclick="selectirradiations(this)" data-price="3300">カメラレンタル3,300円（税込）</button>
             </div>
         </div>
 
@@ -987,20 +1046,20 @@
                 <span class="highlight-text">◆フルレンタルプラン（4時間以上）◆</span>
             </div>
             <div class="symptoms">
-                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="15000">4時間</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="15000">4時間30分</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="15000">5時間</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="15000">5時間30分</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="15000">6時間</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="15000">6時間30分</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="15000">7時間</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="15000">7時間30分</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="15400">4時間</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="17325">4時間30分</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="19250">5時間</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="21175">5時間30分</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="23100">6時間</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="25025">6時間30分</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="26950">7時間</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="28875">7時間30分</button>
             </div>
             <div class="highlight-background">
                 <span class="highlight-text">オプション</span>
             </div>
             <div class="irradiations">
-                <button type="button" id="firstirradiations" onclick="selectirradiations(this)" data-price="15000">カメラレンタル</button>
+                <button type="button" id="firstirradiations" onclick="selectirradiations(this)" data-price="3300">カメラレンタル3,300円（税込）</button>
             </div>
         </div>
 
@@ -1009,21 +1068,21 @@
                 <span class="highlight-text">◆フルレンタルプラン（8時間以上）◆</span>
             </div>
             <div class="symptoms">
-                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="15000">8時間</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="15000">8時間30分</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="15000">9時間</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="15000">9時間30分</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="15000">10時間</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="15000">10時間30分</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="15000">11時間</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="15000">11時間30分</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="15000">12時間</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="26400">8時間</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="28050">8時間30分</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="29700">9時間</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="31350">9時間30分</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="33000">10時間</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="34650">10時間30分</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="36300">11時間</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="37950">11時間30分</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="フルレンタルプラン" data-price="39600">12時間</button>
             </div>
             <div class="highlight-background">
                 <span class="highlight-text">オプション</span>
             </div>
             <div class="irradiations">
-                <button type="button" id="firstirradiations" onclick="selectirradiations(this)" data-price="15000">カメラレンタル</button>
+                <button type="button" id="firstirradiations" onclick="selectirradiations(this)" data-price="3300">カメラレンタル3,300円（税込）</button>
             </div>
         </div>
 
@@ -1032,34 +1091,35 @@
                 <span class="highlight-text">スペースレンタルプラン</span>
             </div>
             <div class="symptoms">
-                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="15000">2時間</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="15000">2時間30分</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="15000">3時間</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="15000">3時間30分</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="15000">4時間</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="15000">4時間30分</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="15000">5時間</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="15000">5時間30分</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="15000">6時間</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="15000">6時間30分</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="15000">7時間</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="15000">7時間30分</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="15000">8時間</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="15000">8時間30分</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="15000">9時間</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="15000">10時間</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="15000">10時間30分</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="15000">11時間</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="15000">11時間30分</button>
-                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="15000">12時間</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="4400">2時間</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="5500">2時間30分</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="6600">3時間</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="7700">3時間30分</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="8800">4時間</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="9900">4時間30分</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="11000">5時間</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="12100">5時間30分</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="13200">6時間</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="14300">6時間30分</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="15400">7時間</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="16500">7時間30分</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="17600">8時間</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="18700">8時間30分</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="19800">9時間</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="20900">9時間30分</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="22000">10時間</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="23100">10時間30分</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="24200">11時間</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="25300">11時間30分</button>
+                <button type="button" onclick="selectSymptom(this)" data-category="スペースレンタルプラン" data-price="26400">12時間</button>
             </div>
             <div class="highlight-background">
                 <span class="highlight-text">オプション</span>
             </div>
             <div class="irradiations">
-                <button type="button" id="firstirradiations" onclick="selectirradiations(this)" data-price="15000">背景紙（白）</button>
-                <button type="button" id="repeatirradiations" onclick="selectirradiations(this)" data-price="15000">背景紙（黒）</button>
-                <button type="button" id="sanirradiations" onclick="selectirradiations(this)" data-price="15000">カメラレンタル</button>
+                <button type="button" id="firstirradiations" onclick="selectirradiations(this)" data-price="1650">背景紙（白）1650円（税込）</button>
+                <button type="button" id="repeatirradiations" onclick="selectirradiations(this)" data-price="1650">背景紙（黒）1650円（税込）</button>
+                <button type="button" id="sanirradiations" onclick="selectirradiations(this)" data-price="3300">カメラレンタル3,300円（税込）</button>
             </div>
         </div>
 
@@ -1152,10 +1212,9 @@
 
         // 訪問回数ごとの時間設定 (例：初めて=20分、2回目以降=15分)
         let irradiationsTimes = {
-            'カメラレンタル': 0,
-            '背景紙（白）': 0,
-            '背景紙（黒）': 0,
-            'カメラレンタル': 0
+            '背景紙（白）1650円（税込）': 0,
+            '背景紙（黒）1650円（税込）': 0,
+            'カメラレンタル：3,300円（税込）': 0
         };
 
         let selectedirradiationsTime = 0; // 訪問回数で選択された時間
@@ -1218,62 +1277,87 @@
             });
         });
 
-        function updateDisplayInfo() {
-            const name = document.getElementById('name').value;
-            const visitCountText = visitCount ? `<span style="color:#34435d;"><strong>【ご来店回数】</strong></span><br>・${visitCount}` : '・来店回数が未選択です';
-            const paymentCountText = paymentCount ? `<span style="color:#34435d;"><strong>【お支払い方法】</strong></span><br>・${paymentCount}` : '・お支払い方法が未選択です';
-            const selectedMenuText = selectedMenu ? `<span style="color:#34435d;"><strong>【コース】</strong></span><br>・${selectedMenu}` : '・コースが未選択です';
+function updateDisplayInfo() {
+    const name = document.getElementById('name').value;
 
-const selectedSymptomText = selectedSymptom.length > 0
-    ? `<span style="color:#34435d;"><strong>【メニュー】</strong></span><br>・${selectedSymptom.map(item => `《${item.category}》${item.name}`).join('<br>・')}`
-    : '・メニューが未選択です';
+    const labelStyle = "color:#0c0c0c; font-size:14px; border:1px solid #0c0c0c; padding:0px 3px; border-radius:4px;";
 
-            const irradiationsText = irradiationsCount
-                ? `<span style="color:#34435d;"><strong>【オプション】</strong></span><br>・${irradiationsCount.split(', ').join('<br>・')}`
-                : '・オプション無し';
+    const visitCountText = visitCount
+        ? `<span style="${labelStyle}"><strong>来店回数</strong></span> ${visitCount}`
+        : '・来店回数が未選択です';
 
-            let totalMinutes = selectedMenuTime + selectedirradiationsTime + selectedVisitTime;
-            let hours = Math.floor(totalMinutes / 60);
-            let minutes = totalMinutes % 60;
-            let totalTimeText = `<span style="color:#34435d;"><strong>【所要時間】</strong></span><br>・${hours > 0 ? hours + '時間' : ''}${minutes}分`;
+    const paymentCountText = paymentCount
+        ? `<span style="${labelStyle}"><strong>お支払い方法</strong></span> ${paymentCount}`
+        : '・お支払い方法が未選択です';
 
-            const totalAmountText = `<span style="color:#34435d;"><strong>【合計金額】</strong></span><br>・¥${menuPrice + optionsPrice}`;
-            const selectedDateText = selectedFullDate ? `<span style="color:#34435d;"><strong>【希望日時】</strong></span><br>・${selectedFullDate}` : '・日時が未選択です';
+    const selectedMenuText = selectedMenu
+        ? `<span style="${labelStyle}"><strong>コース</strong></span> ${selectedMenu}`
+        : '・コースが未選択です';
 
-            // 修正ボタン付きのHTMLを作成
-            document.getElementById('displayInfo').innerHTML = `
+    const selectedSymptomText = selectedSymptom.length > 0
+        ? `<span style="${labelStyle}"><strong>メニュー</strong></span><br>・${selectedSymptom.join('<br>')}`
+        : '・メニューが未選択です';
+
+    const irradiationsText = irradiationsCount
+        ? `<span style="${labelStyle}"><strong>オプション</strong></span><br>・${irradiationsCount.split(', ').join('<br>・')}`
+        : '・オプション無し';
+
+    let totalMinutes = selectedMenuTime + selectedirradiationsTime + selectedVisitTime;
+    let hours = Math.floor(totalMinutes / 60);
+    let minutes = totalMinutes % 60;
+    let totalTimeText = `<span style="${labelStyle}"><strong>所要時間</strong></span> ${hours > 0 ? hours + '時間' : ''}${minutes}分`;
+
+    const totalAmountText = `<span style="${labelStyle}"><strong>合計金額</strong></span> ${(menuPrice + optionsPrice).toLocaleString()}円（税込）`;
+
+
+    const selectedDateText = selectedFullDate
+        ? `<span style="${labelStyle}"><strong>希望日時</strong></span> ${selectedFullDate}`
+        : '・日時が未選択です';
+
+    // 修正ボタン付きのHTMLを作成
+    document.getElementById('displayInfo').innerHTML = `
         <div class="info-row">
-            <p><span style="color:#34435d;"><strong>【お名前】</strong></span><br>・${name}</p>
-            <button class="edit-button" onclick="scrollToElement('name')">修正する</button>
+            <p><span style="${labelStyle}"><strong>お名前</strong></span> ${name}</p>
+            <button class="edit-button" onclick="scrollToElement('name')">修正</button>
         </div>
         <hr>
         <div class="info-row">
             <p>${visitCountText}</p>
-            <button class="edit-button" onclick="scrollToElement('firstVisit')">修正する</button>
+            <button class="edit-button" onclick="scrollToElement('firstVisit')">修正</button>
         </div>
         <hr>
         <div class="info-row">
             <p>${paymentCountText}</p>
-            <button class="edit-button" onclick="scrollToElement('firstPayment')">修正する</button>
+            <button class="edit-button" onclick="scrollToElement('firstPayment')">修正</button>
+        </div>
+        <hr>
+        <div class="info-row">
+            <p>${selectedMenuText}</p>
+            <button class="edit-button" onclick="scrollToElement('course')">修正</button>
         </div>
         <hr>
         <div class="info-row">
             <p>${selectedSymptomText}</p>
-            <button class="edit-button" onclick="scrollToElement('male'); scrollToElement('female'); scrollToElement('whitening');">修正する</button>
+            <button class="edit-button" onclick="scrollToElement('male'); scrollToElement('female'); scrollToElement('whitening'); scrollToElement('Fullrental');">修正</button>
         </div>
         <hr>
         <div class="info-row">
             <p>${irradiationsText}</p>
-            <button class="edit-button" onclick="scrollToElement('firstirradiations')">修正する</button>
+            <button class="edit-button" onclick="scrollToElement('male'); scrollToElement('female'); scrollToElement('whitening'); scrollToElement('Fullrental');">修正</button>
         </div>
         <hr>
         <div class="info-row">
             <p>${selectedDateText}</p>
-            <button class="edit-button" onclick="scrollToElement('calendar1')">修正する</button>
+            <button class="edit-button" onclick="scrollToElement('calendar1')">修正</button>
+        </div>
+        <hr>
+        <div class="info-row">
+            <p>${totalAmountText}</p>
         </div>
         <hr>
     `;
         }
+
 
         // スクロール関数
         function scrollToElement(id) {
@@ -1329,48 +1413,38 @@ const selectedSymptomText = selectedSymptom.length > 0
             // 選択された日時をリセット
             selectedFullDate = '';
 
-            // クリックしたボタンの `data-id` を取得
-            let selectedId = button.getAttribute('data-id');
+            // ボタンの選択状態を切り替える
+            button.classList.toggle('active');
 
-            // クリックしたボタンがすでに `active` なら解除
-            if (button.classList.contains('active')) {
-                button.classList.remove('active');
-            } else {
-                // すでに選択されているボタンを取得（`active` のボタン）
-                let updatedSelectedButtons = document.querySelectorAll('.symptoms button.active');
+            // ローカルストレージに保存する配列を取得
+            let selectedSymptoms = JSON.parse(localStorage.getItem('selectedSymptoms') || '[]');
 
-                // もし選択数が3を超えたら、新しい選択をキャンセル
-                if (updatedSelectedButtons.length >= 1) {
-                    return;
-                }
+            // 選択した症状をローカルストレージに保存（1つだけ保持）
+            selectedSymptoms = [treatmentId];
+            localStorage.setItem('selectedSymptoms', JSON.stringify(selectedSymptoms));
 
-                // クリックしたボタンだけ `active` を付与
-                button.classList.add('active');
-            }
-
-            // 現在選択されているボタンを取得（もう一度更新）
-            let updatedSelectedButtons = document.querySelectorAll('.symptoms button.active');
-            const selectedMenuNameDiv = document.getElementById('selected-menu-name');
-
-            // メニュー時間と価格をリセット
-            selectedMenuTime = 0;
-            selectedSymptom = [];
-            menuPrice = 0;
+            // 選択されたオプションを取得
+            const updatedSelectedButtons = document.querySelectorAll('.symptoms button.active');
 
             if (updatedSelectedButtons.length === 0) {
-                // すべてのボタンの選択が解除された場合
+                // すべてのボタンの選択が解除された場合、メニュー時間を0にリセット
                 selectedMenuTime = 0;
-                selectedSymptom = null;
-                menuPrice = 0;
+                selectedSymptom = null; // 選択されたメニューをリセット
+                menuPrice = 0; // メニュー価格をリセット
+                treatmentText.style.display = 'none';
+                return; // ここで処理を終了
             } else {
-                // 選択された各ボタンについて処理
-updatedSelectedButtons.forEach((btn) => {
-    const selectedMenuName = btn.textContent;
-    const category = btn.getAttribute('data-category'); // 追加
-    selectedSymptom.push({ category, name: selectedMenuName }); // ← 変更
-    selectedMenuTime += menuTimes[selectedMenuName] || 0;
-    menuPrice += parseInt(btn.getAttribute('data-price'), 10) || 0;
-});
+                // 1つだけ選択状態にする
+                if (updatedSelectedButtons.length > 1) {
+                    updatedSelectedButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active'); // クリックしたボタンだけを選択
+                }
+
+                // 選択されたメニューの時間を取得して保存
+                const selectedMenu = button.textContent;
+                selectedMenuTime = menuTimes[selectedMenu] || 0; // メニュー時間を取得して保存
+                selectedSymptom = [selectedMenu]; // 選択されたメニュー名を配列として保存
+                menuPrice = parseInt(button.getAttribute('data-price'), 10) || 0;  // メニューの価格を取得
             }
 
             console.log('選択されたメニューの時間:', selectedMenuTime);
@@ -1400,87 +1474,20 @@ updatedSelectedButtons.forEach((btn) => {
                 treatmentText.innerHTML = '';
             }
 
-            // 移動させる
-            button.parentNode.insertBefore(document.getElementById("treatment-text"), button.nextSibling);
+            // `treatment-text` を選択されたボタンの直後に移動
+            button.parentNode.insertBefore(treatmentText, button.nextSibling);
 
-// 4. 表示もすぐに更新（←これが重要）
-const selectedMenusDisplay = document.getElementById("selected-menus-display");
-
-if (selectedSymptom.length > 0) {
-    selectedMenusDisplay.innerHTML = `
-        <div class="menu-items-wrapper">
-            ${selectedSymptom.map(item => `
-                <div class="menu-item">
-                    <span>《${item.category}》<br>${item.name}</span>
-                    <button class="remove-button" data-category="${item.category}" data-name="${item.name}" onclick="removeSymptom(this)">✕</button>
-                </div>
-            `).join('')}
-        </div>
-    `;
-    selectedMenusDisplay.style.display = 'block';
-} else {
-    selectedMenusDisplay.innerHTML = '';
-    selectedMenusDisplay.style.display = 'none';
-}
-
-
+            // トリートメントテキストを表示
             treatmentText.style.display = 'block';
 
+            // 選択されたメニューの名前と価格を取得
+            const symptomName = button.textContent;  // ボタンのテキストを取得
+            selectedSymptom = [symptomName];  // 選択されたメニュー名を配列として保存
+            menuPrice = parseInt(button.getAttribute('data-price'), 10) || 0;  // メニューの価格を取得
+
+            // 表示を更新
             updateDisplayInfo();
         }
-
-function removeSymptom(button) {
-    const category = button.getAttribute('data-category');
-    const name = button.getAttribute('data-name');
-
-    // active を外す
-    const buttons = document.querySelectorAll('.symptoms button');
-    buttons.forEach(btn => {
-        if (btn.textContent === name && btn.getAttribute('data-category') === category) {
-            btn.classList.remove('active');
-        }
-    });
-
-    // selectedSymptom から削除
-    selectedSymptom = selectedSymptom.filter(item => !(item.category === category && item.name === name));
-
-    // 時間と価格を再計算
-    selectedMenuTime = 0;
-    menuPrice = 0;
-    selectedSymptom.forEach(item => {
-        selectedMenuTime += menuTimes[item.name] || 0;
-        const btn = [...document.querySelectorAll('.symptoms button')].find(
-            b => b.textContent === item.name && b.getAttribute('data-category') === item.category
-        );
-        if (btn) {
-            menuPrice += parseInt(btn.getAttribute('data-price'), 10) || 0;
-        }
-    });
-
-    updateSelectedMenusDisplay();
-    updateDisplayInfo();
-}
-
-function updateSelectedMenusDisplay() {
-    const selectedMenusDisplay = document.getElementById("selected-menus-display");
-
-    if (selectedSymptom.length > 0) {
-        selectedMenusDisplay.innerHTML = `
-            <div class="menu-items-wrapper">
-                ${selectedSymptom.map(item => `
-                    <div class="menu-item">
-                        <span>《${item.category}》<br>${item.name}</span>
-                        <button class="remove-button" data-category="${item.category}" data-name="${item.name}" onclick="removeSymptom(this)">✕</button>
-                    </div>
-                `).join('')}
-            </div>
-        `;
-        selectedMenusDisplay.style.display = 'block';
-    } else {
-        selectedMenusDisplay.innerHTML = '';
-        selectedMenusDisplay.style.display = 'none';
-    }
-}
 
         function selectirradiations(button) {
             // 選択された日時をリセット
@@ -1579,6 +1586,7 @@ function updateSelectedMenusDisplay() {
             // 選択されたメニューセクションを表示
             document.querySelectorAll('.menu-section').forEach(section => {
                 section.classList.remove('active');
+                section.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
             });
 
             // 対応するメニューボタンを選択状態にする
