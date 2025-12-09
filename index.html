@@ -994,11 +994,8 @@
         <div class="label">電話番号<span class="required">必須</span></div>
         <input type="tel" id="phone" placeholder="電話番号を入力してください" oninput="saveInput('phone')">
 
-        <div class="label">ご来店回数<span class="required">必須</span></div>
-        <div class="visit-buttons">
-            <button type="button" id="firstVisit" onclick="selectVisit(this)">1回目</button>
-            <button type="button" id="repeatVisit" onclick="selectVisit(this)">2回目以降</button>
-        </div>
+        <div class="label">撮影用途<span class="required">必須</span></div>
+        <input type="text" id="photograph" placeholder="撮影用途を入力してください">
 
         <div class="label">お支払い方法<span class="required">必須</span></div>
         <div class="payment-buttons">
@@ -1279,12 +1276,8 @@
 
 function updateDisplayInfo() {
     const name = document.getElementById('name').value;
-
+    const photograph = document.getElementById('photograph').value;
     const labelStyle = "color:#0c0c0c; font-size:14px; border:1px solid #0c0c0c; padding:0px 3px; border-radius:4px;";
-
-    const visitCountText = visitCount
-        ? `<span style="${labelStyle}"><strong>来店回数</strong></span> ${visitCount}`
-        : '・来店回数が未選択です';
 
     const paymentCountText = paymentCount
         ? `<span style="${labelStyle}"><strong>お支払い方法</strong></span> ${paymentCount}`
@@ -1322,8 +1315,8 @@ function updateDisplayInfo() {
         </div>
         <hr>
         <div class="info-row">
-            <p>${visitCountText}</p>
-            <button class="edit-button" onclick="scrollToElement('firstVisit')">修正</button>
+            <p><span style="${labelStyle}"><strong>撮影用途</strong></span> ${photograph}</p>
+            <button class="edit-button" onclick="scrollToElement('photograph')">修正</button>
         </div>
         <hr>
         <div class="info-row">
@@ -1640,7 +1633,7 @@ function updateDisplayInfo() {
             const formData = {
                 name: document.getElementById('name').value.trim(),
                 phone: document.getElementById('phone').value.trim(),
-                visitCount: visitCount,
+                photograph: document.getElementById('photograph').value.trim(),
                 paymentCount: paymentCount,
                 selectedMenu: selectedMenu,
                 selectedSymptom: selectedSymptom && selectedSymptom.length > 0 ? selectedSymptom : null, // 空の選択肢をチェック
@@ -1657,6 +1650,11 @@ function updateDisplayInfo() {
 
             if (!formData.phone) {
                 alert('電話番号を入力してください。');
+                return;
+            }
+
+            if (!formData.photograph) {
+                alert('撮影用途を入力してください。');
                 return;
             }
 
@@ -1685,7 +1683,7 @@ const irradiationsText = formData.irradiationsCount || '';
 
 liff.sendMessages([{
     type: 'text',
-    text: `【予約フォーム】\nお名前：${formData.name}\n電話番号：${formData.phone}\nご来店回数：${formData.visitCount}\nお支払い方法：${formData.paymentCount}\nコース：${formData.selectedMenu}\nメニュー：${formData.selectedSymptom},${irradiationsText}\n希望日時：\n${formData.dates[0]}\nメッセージ：${formData.message}`
+    text: `【予約フォーム】\nお名前：${formData.name}\n電話番号：${formData.phone}\n撮影用途：${formData.photograph}\nお支払い方法：${formData.paymentCount}\nコース：${formData.selectedMenu}\nメニュー：${formData.selectedSymptom},${irradiationsText}\n希望日時：\n${formData.dates[0]}\nメッセージ：${formData.message}`
 }]).then(() => {
                 /* メッセージ送信成功時の処理 */
                 alert('当日キャンセルは無いようにお願いいたします。');
